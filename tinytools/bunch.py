@@ -109,10 +109,10 @@ def ordered_bunchify(x,level=0):
         try:
             out = OrderedBunch(y)
             if isinstance(y[0],str):
-                raise ValueError, "This catches when the OrderedDict " \
-                                  "(underneath OrderedBunch) broadcasts" \
-                                  "a single key to mutiple dict entries.  See" \
-                                  "unittests 'nested_bunches'."
+                raise ValueError("This catches when the OrderedDict " \
+                                 "(underneath OrderedBunch) broadcasts" \
+                                 "a single key to mutiple dict entries.  See" \
+                                 "unittests 'nested_bunches'.")
             if speak: print '*'*(level+1)+ 'Bunchify worked, out is:  '+str(out)
             return out
         except:
