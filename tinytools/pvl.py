@@ -202,7 +202,7 @@ def write_dict_to_pvl(fname,dict_in):
     sseq = _conv_dict_to_pvl_strings(dict_in)
 
     # Write string to the file
-    with open(fname,'w+b') as f:
+    with open(fname,'w') as f:
         #f.writelines(['one two\n','three four\n','five'])
         f.writelines(sseq)
 
