@@ -7,7 +7,7 @@ install_requires = [
 
 setup(
     name='tinytools',
-    version='1.0.3',
+    version='1.0.4',
     author='Nathan Longbotham',
     author_email='nlongbotham@digitalglobe.com',
     packages=find_packages(),
