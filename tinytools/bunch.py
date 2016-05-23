@@ -175,11 +175,32 @@ def _print_recursive_loop(ob,depth=0):
                                         subsequent_indent=' '*len(prefix))
         if isinstance(v,OrderedBunch):
             message = str(type(v))
-            sss = sss + wrapper.fill(message)+'\n'
+
+            # Handle different message formats:
+            # If message contains new lines, just pass those through to print.
+            if message.find('\n') != -1:
+                sss = sss + prefix + message.replace('\n','\n'+' '*prelen)+'\n'
+            # Else if message is not empty, pass to wrapper.fill
+            elif message:
+                sss = sss + wrapper.fill(message) + '\n'
+            # Else just pass the empty message along with prefix
+            else:
+                sss = sss + prefix + '\n'
+
             sss = sss + _print_recursive_loop(v,depth=depth+1)
         else:
             message = str(v)
-            sss = sss+wrapper.fill(message)+'\n'
+
+            # Handle different message formats:
+            # If message contains new lines, just pass those through to print.
+            if message.find('\n') != -1:
+                sss = sss + prefix + message.replace('\n','\n'+' '*prelen)+'\n'
+            # Else if message is not empty, pass to wrapper.fill
+            elif message:
+                sss = sss + wrapper.fill(message) + '\n'
+            # Else just pass the empty message along with prefix
+            else:
+                sss = sss + prefix + '\n'
 
     return sss
 
