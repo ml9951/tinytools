@@ -21,9 +21,20 @@ def is_tool(program):
         if _is_exe(program):
             #return program
             return True
+            
+    # if no fpath, then is_tool was just given the name of the command, so
+    # it should go check the PATH env and search for the tool.
+    else:
+        for path in _os.environ["PATH"].split(_os.pathsep):
+            path = path.strip('"')
+            exe_file = _os.path.join(path, program)
+            if _is_exe(exe_file):
+                #return exe_file
+                return True
+            
     # if this a platform with bash, the requested program might be an alias,
     # so call interactive bash and check to see if the program is there.
-    elif (_sys.platform == "linux2" or _sys.platform == "darwin"):
+    if (_sys.platform == "linux2" or _sys.platform == "darwin"):
         try:
             # .bashrc file needed for aliases and defualt subprocess is
             # not interactive (so .bashrc is not sourced).
@@ -38,15 +49,6 @@ def is_tool(program):
         except Exception as e:
             #print e
             pass
-    # if no fpath, then is_tool was just given the name of the command, so
-    # it should go check the PATH env and search for the tool.
-    else:
-        for path in _os.environ["PATH"].split(_os.pathsep):
-            path = path.strip('"')
-            exe_file = _os.path.join(path, program)
-            if _is_exe(exe_file):
-                #return exe_file
-                return True
 
     return False
 
