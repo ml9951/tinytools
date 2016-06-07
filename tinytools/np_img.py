@@ -1,7 +1,4 @@
-try:
-    import numpy as _np
-except ImportError:
-    print "Numpy did not import, some functions may not work - continuing..."
+import numpy as _np
 
 def conv_to_bandsfirst(img):
     """Convert a numpy array to bands first format - this is useful for

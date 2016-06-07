@@ -1,4 +1,8 @@
 import collections as _collections
+import logging as _logging
+
+_logger = _logging.getLogger(__name__)
+
 
 def _filter_pvl_val_to_type(val):
     """Filter v to int, float, or lead as string."""
@@ -143,8 +147,8 @@ def read_from_pvl(fname,param_in=None):
                 val = [_filter_pvl_val_to_type(x) for x in val]
             elif val.startswith("{"):
                 # Build set
-                print("This parser was written without sets defined, so they "
-                      "area treated like lists for now.")
+                _logger.debug("This parser was written without sets defined, "
+                             "so they are treated like lists for now.")
                 val = val.strip("{").strip("}").split(",")
                 val = [_filter_pvl_val_to_type(x) for x in val]
             else:

@@ -2,6 +2,9 @@ import subprocess as _subprocess
 import shlex as _shlex
 import sys as _sys
 import os as _os
+import logging as _logging
+
+_logger = _logging.getLogger(__name__)
 
 def is_tool(program):
     """Test if the tool in "program" string is available on the command line.
@@ -104,12 +107,12 @@ def exec_cmd(cmd_in,shell=False,ret_output=False,**kwargs):
         cmd_txt = ' '.join(cmd_in)
 
     # Print information about the command to the screen
-    print ''
-    print '##################'
-    print 'Executing command:'
-    print cmd_txt
-    print '##################'
-    print ''
+    _logger.debug('')
+    _logger.debug('##################')
+    _logger.debug('Executing command:')
+    _logger.debug(cmd_txt)
+    _logger.debug('##################')
+    _logger.debug('')
 
     # Choose which subprocess to call based on desired return value
     if ret_output:
