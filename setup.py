@@ -5,9 +5,12 @@ install_requires = [
     'numpy'
     ]
 
+# import __version__
+exec(open('tinytools/_version.py').read())
+
 setup(
     name='tinytools',
-    version='1.0.4',
+    version=__version__,
     author='Nathan Longbotham',
     author_email='nlongbotham@digitalglobe.com',
     packages=find_packages(),
