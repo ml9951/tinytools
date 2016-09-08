@@ -97,22 +97,62 @@ class OrderedBunch(_collections.OrderedDict):
 def ordered_bunchify(x,level=0):
     """ Recursively transforms a dictionary into a OrderedBunch via copy.
     """
+
+    # if x == [[[1, 2], [3, 4]]]:
+    #     import ipdb; ipdb.set_trace()
+
     speak = False
     if speak: print '*'*(level+1)+' x is:  '+str(x)
     if isinstance(x, dict):
         return OrderedBunch((k, ordered_bunchify(v)) for k,v in x.iteritems())
+#    # elif isinstance(x, (list, tuple)):
+        # y = list(x)
+        # for i,v in enumerate(y):
+        #     y[i] = ordered_bunchify(y[i],level=level+1)
+        # if speak: print '*'*(level+1)+' OrderedBunch request is:  '+repr(y)
+        # try:
+        #     out = OrderedBunch(y)
+        #     if isinstance(y[0],str):
+        #         raise ValueError("This catches when the OrderedDict " \
+        #                          "(underneath OrderedBunch) broadcasts" \
+        #                          "a single key to mutiple dict entries.  See" \
+        #                          "unittests 'nested_bunches'.")
+        #     if speak: print '*'*(level+1)+ 'Bunchify worked, out is:  '+str(out)
+        #     return out
+        # except Exception as e:
+        #     print('the error is:')
+        #     print(e)
+        #     if speak: print '*'*(level+1)+' exception raised, out is:  '+str(y)
+        #     return y
+    else:
+        return x
+
+def ordered_dictionarify(x,level=0):
+    """Take a crack at parsing lists of lists or tuples of tuples into nested
+    ordered dictionaries.  This can be coupled with ordered_bunchify to
+    create nested ordered bunches from non-dictionary input."""
+    speak = False
+    if speak: print '*' * (level + 1) + ' x is:  ' + str(x)
+    if isinstance(x, dict):
+        return _collections.OrderedDict((k, ordered_dictionarify(v)) for k, v in x.iteritems())
     elif isinstance(x, (list, tuple)):
         y = list(x)
         for i,v in enumerate(y):
-            y[i] = ordered_bunchify(y[i],level=level+1)
+            y[i] = ordered_dictionarify(y[i],level=level+1)
         if speak: print '*'*(level+1)+' OrderedBunch request is:  '+repr(y)
         try:
-            out = OrderedBunch(y)
+            out = _collections.OrderedDict(y)
             if isinstance(y[0],str):
                 raise ValueError("This catches when the OrderedDict " \
                                  "(underneath OrderedBunch) broadcasts" \
                                  "a single key to mutiple dict entries.  See" \
                                  "unittests 'nested_bunches'.")
+            if any([isinstance(x,int) for x in out.keys()]) or \
+                any([isinstance(x,float) for x in out.keys()]):
+                raise ValueError('This catches when using passing floats or '
+                                 'strings as dictionary keys.  You should '
+                                 'pass on the dictionarify function if that is'
+                                 'really what you want.')
             if speak: print '*'*(level+1)+ 'Bunchify worked, out is:  '+str(out)
             return out
         except:
@@ -143,7 +183,7 @@ def _print_recursive_start(x):
     take care of formatting for the print'''
     try:
         if not isinstance(x,OrderedBunch):
-            ob = ordered_bunchify(x)
+            ob = ordered_bunchify(ordered_dictionarify(x))
         else:
             ob = x
     except:
