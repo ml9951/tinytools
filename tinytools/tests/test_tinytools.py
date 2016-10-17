@@ -545,11 +545,24 @@ class TestBunch(unittest.TestCase):
                                        ['bb', 1.23],
                                        ['cc',['mul2']]]]])
 
+        self.dicts4 = []
+        self.dicts4.append(collections.OrderedDict({'a':[[[1,2],[3,4]]]}))
+
+    def test_lists_of_list_length_one(self):
+        for li,lv in enumerate(self.dicts4):
+            din = self.dicts4[li]
+            ob = ordered_bunchify(ordered_dictionarify(din))
+            print(repr(ob))
+
+            a = isinstance(ob,OrderedBunch)
+            b = isinstance(ob[ob.keys()[0]],list)
+
+            self.assertTrue(a & b)
 
     def test_nested_lists(self):
         for li,lv in enumerate(self.dicts2):
             din = self.dicts2[li]
-            ob = ordered_bunchify(din)
+            ob = ordered_bunchify(ordered_dictionarify(din))
             print(repr(ob))
 
             a = isinstance(ob,OrderedBunch)
@@ -561,7 +574,7 @@ class TestBunch(unittest.TestCase):
     def test_nested_bunches(self):
         for li,lv in enumerate(self.dicts3):
             din = self.dicts3[li]
-            ob = ordered_bunchify(din)
+            ob = ordered_bunchify(ordered_dictionarify(din))
             print(repr(ob))
 
             a = isinstance(ob,OrderedBunch)
@@ -572,7 +585,7 @@ class TestBunch(unittest.TestCase):
 
     def test_ordered_bunchify_list_of_strings(self):
         li = 7
-        ob = ordered_bunchify(self.dicts[li])
+        ob = ordered_bunchify(ordered_dictionarify(self.dicts[li]))
         print(repr(ob))
         a = isinstance(ob,OrderedBunch)
         b = isinstance(ob['aaa'],list)
@@ -582,7 +595,7 @@ class TestBunch(unittest.TestCase):
 
     def test_ordered_bunchify_dictsliststuples(self):
         for li in [0,1,2,3,4]:
-            ob = ordered_bunchify(self.dicts[li])
+            ob = ordered_bunchify(ordered_dictionarify(self.dicts[li]))
             print(repr(ob))
             a = isinstance(ob,OrderedBunch)
             b = isinstance(ob['c'],OrderedBunch)
@@ -591,7 +604,7 @@ class TestBunch(unittest.TestCase):
 
     def test_ordered_bunchify_nested_tuples_and_lists(self):
         li = 5
-        ob = ordered_bunchify(self.dicts[li])
+        ob = ordered_bunchify(ordered_dictionarify(self.dicts[li]))
         print(repr(ob))
         a = isinstance(ob,OrderedBunch)
         b = isinstance(ob['c'],OrderedBunch)
@@ -602,7 +615,7 @@ class TestBunch(unittest.TestCase):
 
     def test_ordered_bunchify_len2tuples_and_lists(self):
         li = 6
-        ob = ordered_bunchify(self.dicts[li])
+        ob = ordered_bunchify(ordered_dictionarify(self.dicts[li]))
         print(repr(ob))
         a = isinstance(ob,OrderedBunch)
         b = isinstance(ob['c'],OrderedBunch)
@@ -613,7 +626,7 @@ class TestBunch(unittest.TestCase):
 
     def test_ordered_bunchify_dot_access(self):
         for li in xrange(7):
-            ob = ordered_bunchify(self.dicts[li])
+            ob = ordered_bunchify(ordered_dictionarify(self.dicts[li]))
             print(repr(ob))
             a = ob.a=='one'
             b = ob.c.aa==1
@@ -621,7 +634,7 @@ class TestBunch(unittest.TestCase):
 
     def test_ordered_bunchify_dot_assign(self):
         for li in xrange(7):
-            ob = ordered_bunchify(self.dicts[li])
+            ob = ordered_bunchify(ordered_dictionarify(self.dicts[li]))
             print(repr(ob))
             ob.d='test'
             a = ob.d=='test'
@@ -635,7 +648,7 @@ class TestBunch(unittest.TestCase):
         otc2 = [tuple,tuple,list]
         for li in xrange(7):
             for x in xrange(len(oti)):
-                ob = ordered_bunchify(self.dicts[li])
+                ob = ordered_bunchify(ordered_dictionarify(self.dicts[li]))
                 out = ordered_unbunchify(ob,out_type=oti[x])
                 print(repr(ob))
                 print(repr(out))
@@ -656,27 +669,27 @@ class TestBunch(unittest.TestCase):
 
     def test_ob_print_recursive_ordered_bunch(self):
         for x in xrange(7):
-            ob = ordered_bunchify(self.dicts[x])
+            ob = ordered_bunchify(ordered_dictionarify(self.dicts[x]))
             self.assertTrue(len(tinytools.bunch._print_recursive_start(ob).split('\n'))==6)
 
     def test_ob_print_recursive_ordered_unbunch_type0(self):
         for x in xrange(7):
             d = self.dicts[x]
-            ob = ordered_bunchify(self.dicts[x])
+            ob = ordered_bunchify(ordered_dictionarify(self.dicts[x]))
             out = ordered_unbunchify(ob,out_type=0)
             self.assertTrue(len(tinytools.bunch._print_recursive_start(out).split('\n'))==6)
 
     def test_ob_print_recursive_ordered_unbunch_type1(self):
         for x in xrange(7):
             d = self.dicts[x]
-            ob = ordered_bunchify(self.dicts[x])
+            ob = ordered_bunchify(ordered_dictionarify(self.dicts[x]))
             out = ordered_unbunchify(ob,out_type=1)
             self.assertTrue(len(tinytools.bunch._print_recursive_start(out).split('\n'))==6)
 
     def test_ob_print_recursive_ordered_unbunch_type2(self):
         for x in xrange(7):
             d = self.dicts[x]
-            ob = ordered_bunchify(self.dicts[x])
+            ob = ordered_bunchify(ordered_dictionarify(self.dicts[x]))
             out = ordered_unbunchify(ob,out_type=2)
             self.assertTrue(len(tinytools.bunch._print_recursive_start(out).split('\n'))==6)
 
