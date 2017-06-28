@@ -1,8 +1,8 @@
 import collections as _collections
 
 def _print_dict(d):
-    for i in zip(d.keys(),d.values()):
-        print("%-18s : %s" % i)
+    for i in zip(list(d.keys()),list(d.values())):
+        print(("%-18s : %s" % i))
 
 def _create_my_dict_based_on_pep8():
     """This is what I've been coding to - it is based on the pep8 guidelines

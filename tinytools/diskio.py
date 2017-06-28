@@ -56,8 +56,8 @@ def test_with_binaryfile_copy(src,dest,fsize=100,ncopies=5):
     for enu,i in enumerate(src):
         # Make binary file
         print('')
-        print("***** Source "+str(enu+1)+" of " \
-                +str(len(src))+" *****")
+        print(("***** Source "+str(enu+1)+" of " \
+                +str(len(src))+" *****"))
         print("Creating a binary file to copy from at:")
         print(i)
         with open(i,'wb') as fout:
@@ -66,9 +66,9 @@ def test_with_binaryfile_copy(src,dest,fsize=100,ncopies=5):
         for ind,j in enumerate(dest):
 
             print('')
-            print("*** Copy destination "+str(ind+1)+" of " \
-                    +str(len(dest))+" ***")
-            print("Destination location: %s" % j)
+            print(("*** Copy destination "+str(ind+1)+" of " \
+                    +str(len(dest))+" ***"))
+            print(("Destination location: %s" % j))
             #print("Source location : %s" % i
             # copy to destination and record stats
 
@@ -79,13 +79,13 @@ def test_with_binaryfile_copy(src,dest,fsize=100,ncopies=5):
             tvec = _timeit.repeat(cmd,setup="import shutil",
                                  repeat=ncopies,number=1)
 
-            print("Average copy time is:  %s" % _np.mean(tvec))
-            print("Standard deviation of copy time is:  %s" % _np.std(tvec))
+            print(("Average copy time is:  %s" % _np.mean(tvec)))
+            print(("Standard deviation of copy time is:  %s" % _np.std(tvec)))
 
-            print("Removing file %s" % j)
+            print(("Removing file %s" % j))
             _os.remove(j)
 
-        print("Removing file %s" % i)
+        print(("Removing file %s" % i))
         _os.remove(i)
 
 # def test_with_dd(test_path):
